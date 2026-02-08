@@ -5,21 +5,20 @@ public class Enemy : MonoBehaviour
     public int damage = 20;
 
     void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("Projectile"))
     {
-        PlayerHealth player = other.GetComponent<PlayerHealth>();
-
-        if (player != null)
-        {
-            player.TakeDamage(damage);
-            Destroy(gameObject);
-        }
+        FindObjectOfType<ScoreManager>().AddScore(5);
+        Destroy(other.gameObject);
+        Destroy(gameObject);
     }
 
-    void Update()
+    PlayerHealth player = other.GetComponent<PlayerHealth>();
+
+    if (player != null)
     {
-        if (transform.position.x < -10f)
-        {
-            Destroy(gameObject);
-        }
+        player.TakeDamage(damage);
+        Destroy(gameObject);
     }
+}
 }
